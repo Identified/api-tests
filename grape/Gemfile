@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+gem 'grape'
+gem 'puma',       require: false
+gem 'unicorn',    require: false
+gem 'yajl-ruby'
+
+group :test do
+  gem "rspec"
+  gem "rack-test"
+end
