@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export RBENV_VERSION=2.1.1
+
+exec bundle exec puma -p 8080 -C config/puma.rb
