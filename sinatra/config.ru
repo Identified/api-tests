@@ -1,6 +1,6 @@
 root = ::File.dirname(__FILE__)
-require ::File.join( root, 'app' )
+$:.unshift ::File.join( root, 'lib' )
 
-app = App.new
+require 'app'
 
-run app
+run App.new

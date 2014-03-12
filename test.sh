@@ -2,8 +2,8 @@
 HOST=${HOST:=127.0.0.1}
 PORT=${PORT:=8080}
 
-COUNT=100 
-CONCURRENCY=1
+COUNT=10000 
+CONCURRENCY=10
 
 ab -n $COUNT -c $CONCURRENCY $HOST:$PORT/hello | tee results/$1-hello.txt
 
