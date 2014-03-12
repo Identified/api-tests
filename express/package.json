@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "coffee -o js -c . ; node js/app.js"
+    "start": "coffee -o app/js -c ./app ; node app/js/app.js"
   },
   "dependencies": {
     "express": "3.4.8",
