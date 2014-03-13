@@ -12,3 +12,7 @@ rails/unicorn-ruby/hello-world/db/*.sqlite3-journal
 # Ignore all logfiles and tempfiles.
 rails/unicorn-ruby/hello-world/log/*.log
 rails/unicorn-ruby/hello-world/tmp
+
+*.iml
+*/.idea/*
+*/target/
