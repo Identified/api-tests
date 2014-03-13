@@ -26,6 +26,9 @@ trait JsonService extends HttpService {
             }
 
             val response = input(key).toUpperCase
+             if(key == "v2"){
+               Thread.sleep(50)
+             }
 
             complete{
               JsObject(key -> JsString(response))
