@@ -3,3 +3,12 @@
 express/node_modules
 express/app/js
 rails/unicorn-ruby/.idea
+rails/unicorn-ruby/hello-world/.bundle
+
+# Ignore the default SQLite database.
+rails/unicorn-ruby/hello-world/db/*.sqlite3
+rails/unicorn-ruby/hello-world/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+rails/unicorn-ruby/hello-world/log/*.log
+rails/unicorn-ruby/hello-world/tmp
