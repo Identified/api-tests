@@ -1,8 +1,7 @@
 # encoding: utf-8
 Bundler.require
-require 'yajl'
-require_relative 'apis/v1'
-require_relative 'apis/v2'
+require 'apis/v1'
+require 'apis/v2'
 
 class Api < Grape::API
   get :hello do

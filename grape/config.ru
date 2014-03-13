@@ -1,5 +1,7 @@
 root = ::File.dirname(__FILE__)
-require ::File.join( root, 'api' )
+$:.unshift ::File.join( root, 'lib' )
+
+require 'api'
 
 app = Api.new
 
