@@ -2,3 +2,4 @@
 .DS_Store
 express/node_modules
 express/app/js
+rails/unicorn-ruby/.idea
