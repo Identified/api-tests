@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 gem 'grape'
 gem 'puma',       require: false
-gem 'unicorn',    require: false
+gem 'unicorn', platform: :ruby,    require: false
 gem 'yajl-ruby', platform: :ruby, require: 'yajl'
 gem 'jrjackson', platform: :jruby
 
