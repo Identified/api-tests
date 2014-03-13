@@ -1,11 +1,11 @@
 package main
 
 import (
+  "runtime"
+	"encoding/json"
 	"fmt"
 	"net/http"
-  "encoding/json"
-  "log"
-  "strings"
+	"strings"
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
@@ -13,32 +13,34 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 type JsonV1 struct {
-  Str string
-}
-
-type JsonV2 struct {
-  String string
+	Str string
 }
 
 func v1Handler(w http.ResponseWriter, r *http.Request) {
-  decoder := json.NewDecoder(r.Body)
-  json := new(JsonV1)
-  decoder.Decode(&json)
-  log.Println(json.Str)
-  
-	fmt.Fprintf(w, "{\"str\": %s}", strings.ToUpper(json.Str))
+	decoder := json.NewDecoder(r.Body)
+	json_v1 := new(JsonV1)
+	decoder.Decode(&json_v1)
+
+	json_v1.Str = strings.ToUpper(json_v1.Str)
+	json.NewEncoder(w).Encode(&json_v1)
+}
+
+type JsonV2 struct {
+	String string
 }
 
 func v2Handler(w http.ResponseWriter, r *http.Request) {
-  decoder := json.NewDecoder(r.Body)
-  json := new(JsonV2)
-  decoder.Decode(&json)
-  log.Println(json.String)
-  
-	fmt.Fprintf(w, "{\"string\": %s}", strings.ToUpper(json.String))
+	decoder := json.NewDecoder(r.Body)
+	json_v2 := new(JsonV2)
+	decoder.Decode(&json_v2)
+
+	json_v2.String = strings.ToUpper(json_v2.String)
+	json.NewEncoder(w).Encode(&json_v2)
 }
 
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/v1/json", v1Handler)
 	http.HandleFunc("/v2/json", v2Handler)
