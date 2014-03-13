@@ -31,6 +31,7 @@ class ApiResource() {
   @Timed
   @Path("v2/json")
   def json2(@PathParam("url") url: String, body: Model2) : Model2 = {
+    Thread.sleep(50)
     Model2(string = body.string.toUpperCase)
   }
 }
