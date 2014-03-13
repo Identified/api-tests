@@ -16,3 +16,7 @@ rails/unicorn-ruby/hello-world/tmp
 *.iml
 */.idea/*
 */target/
+
+*.class
+*.cache
+spray/project/target
