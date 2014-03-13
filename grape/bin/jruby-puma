@@ -1,6 +1,0 @@
-#!/bin/bash
-
-export RBENV_VERSION=jruby-1.7.11
-export JAVA_OPTS='-Xmx2g -Xms2g'
-
-exec bundle exec puma -p 8080 -C config/puma.rb
