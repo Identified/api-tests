@@ -1,0 +1,47 @@
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient)
+
+
+Server Software:        
+Server Hostname:        127.0.0.1
+Server Port:            8080
+
+Document Path:          /v2/json
+Document Length:        48 bytes
+
+Concurrency Level:      10
+Time taken for tests:   59.475 seconds
+Complete requests:      10000
+Failed requests:        0
+Write errors:           0
+Non-2xx responses:      10000
+Total transferred:      3170000 bytes
+Total POSTed:           1630000
+HTML transferred:       480000 bytes
+Requests per second:    168.14 [#/sec] (mean)
+Time per request:       59.475 [ms] (mean)
+Time per request:       5.947 [ms] (mean, across all concurrent requests)
+Transfer rate:          52.05 [Kbytes/sec] received
+                        26.76 kb/s sent
+                        78.81 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   2.4      0     233
+Processing:     5   59  70.1     52    2107
+Waiting:        5   59  70.1     52    2107
+Total:          8   59  70.1     53    2107
+
+Percentage of the requests served within a certain time (ms)
+  50%     53
+  66%     55
+  75%     57
+  80%     58
+  90%     63
+  95%     71
+  98%     88
+  99%    199
+ 100%   2107 (longest request)

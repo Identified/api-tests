@@ -3,7 +3,6 @@ module V2
     respond_to :json
 
     def lowercase_json
-      puts params
       render json: { str: params[:str].downcase } if params[:str]
     end
   end
