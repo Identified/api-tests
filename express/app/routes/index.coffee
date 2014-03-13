@@ -6,6 +6,9 @@ exports.json = (req, res) ->
     when "v1"
       res.send {str: req.body.str.toUpperCase()}
     when "v2"
+      setInterval (->
+        return
+      ), 50
       res.send {string: req.body.string.toUpperCase()}
     else
       res.send {string: "wat?"}
