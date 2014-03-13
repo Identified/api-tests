@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export RBENV_VERSION=2.1.1
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+exec bundle exec unicorn -p 8080 -c $DIR/../config/unicorn.rb -E production

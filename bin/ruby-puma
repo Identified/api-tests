@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export RBENV_VERSION=2.1.1
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+exec bundle exec puma -p 8080 -C $DIR/../config/puma.rb -w 5
