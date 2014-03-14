@@ -13,7 +13,7 @@ else
   app = express()
 
   # all environments
-  app.set "port", process.env.PORT or 3000
+  app.set "port", process.env.PORT or 8080
   app.use express.logger("dev")
   app.use express.json()
   app.use express.urlencoded()

@@ -4,6 +4,7 @@ import com.example.app.MyScalatraServlet
 import org.scalatra.test.specs2._
 
 class MyScalatraMutableServletSpec extends MutableScalatraSpec {
+
   addServlet(classOf[MyScalatraServlet], "/*")
 
   "GET / on MyScalatraServlet" should {
@@ -27,5 +28,21 @@ class MyScalatraMutableServletSpec extends MutableScalatraSpec {
       }
     }
   }
+
+//  "POST /v1/json on MyScalatraServlet" should {
+//    "return status 200" in {
+//      postJson("/v1/json", "{\"str\" : \"lower\")") {
+//        status must_== 200
+//      }
+//    }
+//
+//    "return '????'" in {
+//      post("/v1/json") {
+//        body must =~("????")
+//      }
+//    }
+//  }
+
+
 
 }

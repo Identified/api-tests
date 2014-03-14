@@ -21,7 +21,11 @@ object ScalatraBuild extends Build {
       version := Version,
       scalaVersion := ScalaVersion,
       resolvers += Classpaths.typesafeReleases,
+
       libraryDependencies ++= Seq(
+        "com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2",
+        "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.2",
+
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",

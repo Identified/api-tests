@@ -1,0 +1,446 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.identified</groupId>
+    <artifactId>transmission</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <prerequisites>
+        <maven>3.0.4</maven>
+    </prerequisites>
+
+    <scm>
+        <url>https://github.com/Identified/transmission</url>
+        <connection>scm:git:http://github.com/identified/transmission.git</connection>
+        <developerConnection>scm:git:https://github.com/identified/transmission.git</developerConnection>
+    </scm>
+
+    <properties>
+
+        <main.class>com.identified.transmission.TransmissionService</main.class>
+        <jetty-maven-plugin.contextPath>/claws</jetty-maven-plugin.contextPath>
+
+
+        <jdk.version>7</jdk.version>
+        <character.encoding>UTF-8</character.encoding>
+
+        <repository.url>http://mgmt-archiva-01:8080</repository.url>
+
+        <!-- version numbers -->
+        <scala.version>2.10</scala.version>
+        <scala.full.version>2.10.0</scala.full.version>
+        <scalatest.version>2.0</scalatest.version>
+
+        <dropwizard.version>0.6.2</dropwizard.version>
+        <iprental.version>1.5.6</iprental.version>
+
+
+    </properties>
+
+    <dependencies>
+        <!-- SCALA -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.full.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_${scala.version}</artifactId>
+            <version>${scalatest.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- DROPWIZARD -->
+        <dependency>
+            <groupId>com.yammer.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
+            <version>${dropwizard.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.massrelevance</groupId>
+            <artifactId>dropwizard-scala_2.10</artifactId>
+            <version>${dropwizard.version}-1</version>
+        </dependency>
+
+
+        <!-- IPRENTAL SOAP API-->
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-kernel</artifactId>
+            <version>${iprental.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-http</artifactId>
+            <version>${iprental.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-transport-local</artifactId>
+            <version>${iprental.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2</artifactId>
+            <version>${iprental.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-adb</artifactId>
+            <version>${iprental.version}</version>
+        </dependency>
+
+        <!-- Netty -->
+        <dependency>
+        	<groupId>io.netty</groupId>
+        	<artifactId>netty-example</artifactId>
+        	<version>4.0.15.Final</version>
+        </dependency>
+
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- COMPILE -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <compilerVersion>${jdk.version}</compilerVersion>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>${character.encoding}</encoding>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+
+
+
+            <!-- SCALA -->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.1.6</version>
+                <configuration>
+                    <charset>${character.encoding}</charset>
+                    <scalaVersion>${scala.full.version}</scalaVersion>
+                    <args>
+                        <arg>-encoding</arg>
+                        <arg>${character.encoding}</arg>
+                        <arg>-target:jvm-1.6</arg>
+                        <arg>-unchecked</arg>
+                        <arg>-deprecation</arg>
+                        <arg>-feature</arg>
+                        <!-- <arg>-explaintypes</arg> -->
+                        <!-- <arg>-verbose</arg> -->
+                        <!-- <arg>-optimise</arg> -->
+                        <!-- <arg>-language:implicitConversions</arg> -->
+                    </args>
+                    <!-- <recompileMode>incremental</recompileMode> -->
+                    <!-- <useZincServer>true</useZincServer> -->
+                    <javacArgs>
+                        <javacArg>-Xlint:unchecked</javacArg>
+                        <javacArg>-Xlint:deprecation</javacArg>
+                    </javacArgs>
+                    <jvmArgs>
+                        <jvmArg>-Xmx512m</jvmArg>
+                    </jvmArgs>
+                    <launchers>
+                        <launcher>
+                            <id>scalatest</id>
+                            <mainClass>org.scalatest.tools.Runner</mainClass>
+                            <args>
+                                <arg>-Q</arg>
+                            </args>
+                            <jvmArgs>
+                                <jvmArg>-Xmx512m</jvmArg>
+                            </jvmArgs>
+                        </launcher>
+                    </launchers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.scala-lang</groupId>
+                        <artifactId>scala-compiler</artifactId>
+                        <version>${scala.full.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+
+            <!-- SCALA TEST -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                    <!-- disable surefire as we use scalatest -->
+                    <skipTests>true</skipTests>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                    <!-- disable surefire as we use scalatest -->
+                    <skipTests>true</skipTests>
+                    <includes>
+                        <include>**/*IntegrationTest.*</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>failsafe-integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest-maven-plugin</artifactId>
+                <version>1.0-M4-SNAP1</version>
+                <configuration>
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                    <junitxml>.</junitxml>
+                    <stdout>F</stdout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>scalatest-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>${character.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                            <goal>test-jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${main.class}</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+
+            <!-- FAT JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${main.class}</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- EXEC -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                    <!-- <includePluginDependencies>true</includePluginDependencies> -->
+                    <arguments>
+                        <argument>server</argument>
+                        <argument>config.yml</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+
+
+
+            <!-- DEPLOY -->
+            <plugin>
+                <!-- explicitly define maven-deploy-plugin after other plugins -->
+                <!-- to force execution order -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>identified-snapshots</id>
+            <url>${repository.url}/repository/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>identified-releases</id>
+            <url>${repository.url}/repository/releases/</url>
+        </repository>
+    </distributionManagement>
+
+
+    <repositories>
+        <repository>
+            <id>identified-snapshots</id>
+            <url>${repository.url}/repository/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>identified-releases</id>
+            <url>${repository.url}/repository/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>identified-snapshots</id>
+            <url>${repository.url}/repository/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>identified-releases</id>
+            <url>${repository.url}/repository/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>central</id>
+            <url>http://repo.maven.apache.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>
